@@ -10,59 +10,65 @@ from scipy.integrate import odeint
 get_ipython().magic('matplotlib inline')
 
 
-# In[2]:
+# In[33]:
 
 # initializing constants
-K = 1.
-s = 1.
-ao = 1.
-io = 1.
+K = 0.06
+s = 20.
+a = 23300.
+io = 2e-7
 L = 1.
 n = 1
 F = 96485
 R = 8.314
 T = 298
-I = 1.
+I = 0.1
 
 
 #graph analytically
 X = np.linspace(0., L, 100)
 Y=y = X/L
-v = L*np.sqrt(ao*io*(n*F)/(R*T)*(K + s)/(K*s))
+v = L*np.sqrt(a*io*(n*F)/(R*T)*(K + s)/(K*s))
 i2 = I * K/(K + s)*(1 + (s*(K**-1)*np.sinh(v*(1-y)) - np.sinh(v*y))/np.sinh(v))
 
 
-# In[3]:
+# In[34]:
 
 plt.plot(X, i2)
 
 
-# In[14]:
+# In[40]:
 
 #solve numerically
 def simplebattfunc(i, x):
     i0, i1 = i
     di = i1
-    d2i = ao*io*(n*F)/(R*T)*(-I/s + i0*(1/s + 1/K))
+    d2i = a*io*(n*F)/(R*T)*(-I/s + i0*(1/s + 1/K))
     return di, d2i
 
 def battfunc(IV, x):
     i1, i2, V1, V2 = IV
-    di2 = ao*io*(n*F)/(R*T)*(V1 - V2)
+    di2 = a*io*(n*F)/(R*T)*(V1 - V2)
     di1 = -di2
     dV1 = -i1/s
     dV2 = -i2/K
     return di1, di2, dV1, dV2
 
 
-# In[23]:
+# In[41]:
 
+def objective2(V2o):
+    V = odeint(battfunc, [0, I, 0, V2o], t)
+    print(V[-1, 3])
+    return V[-1,3]
+
+V2o = fsolve(objective2, 0)
 t = np.linspace(0., 1., 100)
-batt = odeint(battfunc, [0, I, 0, 0.01], t)
+batt = odeint(battfunc, [0, I, 0, V2o], t)
 plt.plot(t, batt)
 
 
-# In[9]:
+# In[37]:
 
 from scipy.optimize import fsolve
 
@@ -83,6 +89,11 @@ i1 = I - i[:,0]
 plt.plot(t, i[:,0], label = 'i2 - ionic')
 plt.plot(t, i1, label = 'i1 - electronic')
 plt.legend(loc = 'best')
+
+
+# In[24]:
+
+get_ipython().magic('pinfo fsolve')
 
 
 # In[ ]:
