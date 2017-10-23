@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[21]:
+# In[1]:
 
 import scipy as sp
 import numpy as np
@@ -10,7 +10,7 @@ from scipy.integrate import odeint
 get_ipython().magic('matplotlib inline')
 
 
-# In[78]:
+# In[2]:
 
 # initializing constants
 K = 1.
@@ -32,12 +32,12 @@ v = L*np.sqrt(ao*io*(n*F)/(R*T)*(K + s)/(K*s))
 i2 = I * K/(K + s)*(1 + (s*(K**-1)*np.sinh(v*(1-y)) - np.sinh(v*y))/np.sinh(v))
 
 
-# In[79]:
+# In[3]:
 
 plt.plot(X, i2)
 
 
-# In[88]:
+# In[14]:
 
 #solve numerically
 def simplebattfunc(i, x):
@@ -46,21 +46,23 @@ def simplebattfunc(i, x):
     d2i = ao*io*(n*F)/(R*T)*(-I/s + i0*(1/s + 1/K))
     return di, d2i
 
-def batteryfunc(IV, x):
+def battfunc(IV, x):
     i1, i2, V1, V2 = IV
-    I = i1 + i2
-    di2dx = ao*io*(n*F)/(R*T)(V1 - V2)
-    
+    di2 = ao*io*(n*F)/(R*T)*(V1 - V2)
+    di1 = -di2
+    dV1 = -i1/s
+    dV2 = -i2/K
+    return di1, di2, dV1, dV2
 
 
-# In[89]:
+# In[23]:
 
 t = np.linspace(0., 1., 100)
-i2 = odeint(simplebattfunc, [I, 0], t)
-plt.plot(t, i2)
+batt = odeint(battfunc, [0, I, 0, 0.01], t)
+plt.plot(t, batt)
 
 
-# In[90]:
+# In[9]:
 
 from scipy.optimize import fsolve
 
@@ -77,7 +79,10 @@ u2_0, = fsolve(objective, 0)
 print(u2_0)
 
 i = odeint(simplebattfunc, [u1_0, u2_0], t)
-plt.plot(t, i[:,0])
+i1 = I - i[:,0]
+plt.plot(t, i[:,0], label = 'i2 - ionic')
+plt.plot(t, i1, label = 'i1 - electronic')
+plt.legend(loc = 'best')
 
 
 # In[ ]:
