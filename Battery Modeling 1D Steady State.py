@@ -77,7 +77,7 @@ def objective(u2_0):
     """
     
     U = odeint(simplebattfunc, [I, u2_0], X)
-    print(U[-1,0])
+#     print(U[-1,0])
     return U[-1,0]
 
 
@@ -98,28 +98,28 @@ def objectiveBV(V2o):
     
     V = odeint(BVbattfunc, [0, I, 0, V2o], X)
     dV = np.diff(V[:,3])/np.diff(X)
-    print(dV[-1])
+#     print(dV[-1])
     return dV[-1]
 
 
-# In[6]:
+# In[10]:
 
 u2_0, = fsolve(objective, 0)
 simple_i = odeint(simplebattfunc, [I, u2_0], X)
 simple_i1 = I - simple_i[:,0]
 
-u2_0, = fsolve(objectiveLinear, 0)
-linear_IV = odeint(linearbattfunc, [0, I, 0, u2_0], X)
+linear_V2_0 = fsolve(objectiveLinear, 0)
+linear_IV = odeint(linearbattfunc, [0, I, 0, linear_V2_0], X)
 
-u2_0, = fsolve(objectiveBV, -1e-13)
-BV_IV = odeint(BVbattfunc, [0, I, 0, u2_0], X)
+# BV_V2_0, = fsolve(objectiveBV, 0)
+# BV_IV = odeint(BVbattfunc, [0, I, 0, BV_V2_0], X)
 
 plt.plot(X, simple_i[:,0], label = 'ionic linear simple')
 plt.plot(X, simple_i1, label = 'electronic linear simple')
 plt.plot(X, linear_IV[:,0], label = 'ionic linear')
 plt.plot(X, linear_IV[:,1], label = 'electronic linear')
-plt.plot(X, BV_IV[:,0], label = 'ionic Tafel')
-plt.plot(X, BV_IV[:,1], label = 'electronic Tafel')
+# plt.plot(X, BV_IV[:,0], label = 'ionic Tafel')
+# plt.plot(X, BV_IV[:,1], label = 'electronic Tafel')
 plt.legend(loc = 'best')
 
 
