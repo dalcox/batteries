@@ -11775,7 +11775,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
@@ -11793,7 +11793,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[103]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># initializing constants</span>
@@ -11825,7 +11825,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[104]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">i2</span><span class="p">)</span>
@@ -11840,12 +11840,12 @@ div#notebook {
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[14]:</div>
+<div class="prompt output_prompt">Out[104]:</div>
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;matplotlib.lines.Line2D at 0x1100c62b0&gt;]</pre>
+<pre>[&lt;matplotlib.lines.Line2D at 0x120487b38&gt;]</pre>
 </div>
 
 </div>
@@ -12027,7 +12027,7 @@ t2QXOvsAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[105]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#solve numerically</span>
@@ -12050,7 +12050,7 @@ t2QXOvsAAAAASUVORK5CYII=
 
 <span class="k">def</span> <span class="nf">BVbattfunc</span><span class="p">(</span><span class="n">IV</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
     <span class="n">i1</span><span class="p">,</span> <span class="n">i2</span><span class="p">,</span> <span class="n">V1</span><span class="p">,</span> <span class="n">V2</span> <span class="o">=</span> <span class="n">IV</span>
-    <span class="n">di2</span> <span class="o">=</span> <span class="o">-</span><span class="n">a</span><span class="o">*</span><span class="n">io</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">n</span><span class="o">*</span><span class="n">F</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">R</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">*-</span><span class="n">ac</span><span class="o">*</span><span class="p">(</span><span class="n">V1</span> <span class="o">-</span> <span class="n">V2</span><span class="p">))</span>
+    <span class="n">di2</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="n">io</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">n</span><span class="o">*</span><span class="n">F</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">R</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">*</span><span class="n">aa</span><span class="o">*</span><span class="p">(</span><span class="n">V1</span> <span class="o">-</span> <span class="n">V2</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">n</span><span class="o">*</span><span class="n">F</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">R</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">*-</span><span class="n">ac</span><span class="o">*</span><span class="p">(</span><span class="n">V1</span> <span class="o">-</span> <span class="n">V2</span><span class="p">)))</span>
 <span class="c1">#     di2 = a*io*(n*F)/(R*T)*(V1 - V2)</span>
     <span class="n">di1</span> <span class="o">=</span> <span class="o">-</span><span class="n">di2</span>
     <span class="n">dV1</span> <span class="o">=</span> <span class="o">-</span><span class="n">i1</span><span class="o">/</span><span class="n">s</span>
@@ -12078,7 +12078,7 @@ t2QXOvsAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[106]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">u2_0</span><span class="p">):</span>
@@ -12089,7 +12089,6 @@ t2QXOvsAAAAASUVORK5CYII=
 <span class="c1">#     print(U[-1,0])</span>
     <span class="k">return</span> <span class="n">U</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
 
-
 <span class="k">def</span> <span class="nf">objectiveLinear</span><span class="p">(</span><span class="n">V2o</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Shooting method for solving linear kinetic system</span>
@@ -12098,7 +12097,6 @@ t2QXOvsAAAAASUVORK5CYII=
     <span class="n">dV</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">V</span><span class="p">[:,</span><span class="mi">3</span><span class="p">])</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="c1">#     print(dV[-1])</span>
     <span class="k">return</span> <span class="n">dV</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
 
 <span class="k">def</span> <span class="nf">objectiveBV</span><span class="p">(</span><span class="n">V2o</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -12117,6 +12115,7 @@ t2QXOvsAAAAASUVORK5CYII=
     <span class="n">U</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">Tafelfunc</span><span class="p">,</span> <span class="p">[</span><span class="n">i1o</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">V2o</span><span class="p">],</span> <span class="n">X</span><span class="p">)</span>
     <span class="n">V</span> <span class="o">=</span> <span class="n">U</span><span class="p">[:,</span><span class="mi">3</span><span class="p">]</span>
     <span class="n">dV</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">V</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i1o</span><span class="p">,</span> <span class="n">V2o</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">dV</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
@@ -12128,24 +12127,26 @@ t2QXOvsAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="prompt input_prompt">In&nbsp;[131]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># u2_0, = fsolve(objective, 0.)</span>
 <span class="c1"># simple_i = odeint(simplebattfunc, [I, u2_0], X)</span>
 <span class="c1"># simple_i1 = I - simple_i[:,0]</span>
 
-<span class="n">linear_V2_0</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="n">objectiveLinear</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span>
-<span class="n">linear_IV</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">linearbattfunc</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">linear_V2_0</span><span class="p">],</span> <span class="n">X</span><span class="p">)</span>
+<span class="c1">#linear_V2_0 = fsolve(objectiveLinear, 0.)</span>
+<span class="n">linear_IV</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">linearbattfunc</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">linear_V2_0</span><span class="p">],</span> <span class="n">X</span><span class="p">)</span> <span class="c1">#, full_output = 1)</span>
 
-<span class="c1"># BV_V2_0 = fsolve(objectiveBV, 0)</span>
+<span class="c1"># BV_i1_0, BV_V2_0 = fsolve(bjectiveTafel, [0,0])</span>
 <span class="c1"># BV_IV = odeint(BVbattfunc, [0., I, 0, BV_V2_0], X)</span>
-
-<span class="n">T_i1o</span><span class="p">,</span> <span class="n">T_V2o</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="n">ObjectiveTafel</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">T_IV</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">Tafelfunc</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">V2o</span><span class="p">],</span> <span class="n">X</span><span class="p">)</span>
+<span class="n">T_i1o</span><span class="p">,</span> <span class="n">T_V2o</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="n">ObjectiveTafel</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="o">.</span><span class="mi">3</span><span class="p">],</span> <span class="n">maxfev</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">T_IV</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">Tafelfunc</span><span class="p">,</span> <span class="p">[</span><span class="n">T_i1o</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">T_V2o</span><span class="p">],</span> <span class="n">X</span><span class="p">)</span> <span class="c1">#, full_output = 1)</span>
+<span class="c1"># print(T_IV)</span>
 
 <span class="c1"># plt.plot(X, simple_i[:,0], label = &#39;ionic linear simple&#39;)</span>
 <span class="c1"># plt.plot(X, simple_i1, label = &#39;electronic linear simple&#39;)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">linear_IV</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;electronic linear&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">linear_IV</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span> <span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;ionic linear&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T_IV</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;electronic Tafel&#39;</span><span class="p">)</span>
@@ -12164,25 +12165,30 @@ t2QXOvsAAAAASUVORK5CYII=
 <div class="output_area">
 <div class="prompt"></div>
 
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/Users/daltoncox/anaconda/lib/python3.6/site-packages/scipy/integrate/odepack.py:218: ODEintWarning: Illegal input detected (internal error). Run with full_output = 1 to get quantitative information.
-  warnings.warn(warning_msg, ODEintWarning)
-/Users/daltoncox/anaconda/lib/python3.6/site-packages/scipy/integrate/odepack.py:218: ODEintWarning: Excess work done on this call (perhaps wrong Dfun type). Run with full_output = 1 to get quantitative information.
-  warnings.warn(warning_msg, ODEintWarning)
-/Users/daltoncox/anaconda/lib/python3.6/site-packages/scipy/optimize/minpack.py:161: RuntimeWarning: The iteration is not making good progress, as measured by the 
-  improvement from the last ten iterations.
-  warnings.warn(msg, RuntimeWarning)
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.1 0.3
+0.1 0.3
+0.1 0.3
+0.10000000149 0.3
+0.1 0.30000000447
+-3.72747152588e-10 0.301034136136
+-6.53559912784e-11 0.300780047519
+1.60414761376e-18 0.300861783425
+5.69334361271e-20 0.300871435397
+-1.08709553421e-21 0.300870934838
+7.13004972255e-23 0.300870937605
+-4.1785535771e-26 0.300870937606
 </pre>
 </div>
 </div>
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[79]:</div>
+<div class="prompt output_prompt">Out[131]:</div>
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.legend.Legend at 0x1122f6710&gt;</pre>
+<pre>&lt;matplotlib.legend.Legend at 0x12315c438&gt;</pre>
 </div>
 
 </div>
@@ -12552,7 +12558,33 @@ TkSuQmCC
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[72]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">Tafelfunc</span><span class="p">(</span><span class="n">IV</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
@@ -12587,11 +12619,11 @@ TkSuQmCC
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">i1o</span><span class="p">,</span> <span class="n">V2o</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="n">ObjectiveTafel</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">U</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">Tafelfunc</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">V2o</span><span class="p">],</span> <span class="n">X</span><span class="p">)</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">Tafelfunc</span><span class="p">,</span> <span class="p">[</span><span class="n">i1o</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">V2o</span><span class="p">],</span> <span class="n">X</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">U</span><span class="p">)</span>
 </pre></div>
@@ -12610,22 +12642,20 @@ TkSuQmCC
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>/Users/daltoncox/anaconda/lib/python3.6/site-packages/scipy/integrate/odepack.py:218: ODEintWarning: Illegal input detected (internal error). Run with full_output = 1 to get quantitative information.
   warnings.warn(warning_msg, ODEintWarning)
-/Users/daltoncox/anaconda/lib/python3.6/site-packages/scipy/integrate/odepack.py:218: ODEintWarning: Excess work done on this call (perhaps wrong Dfun type). Run with full_output = 1 to get quantitative information.
-  warnings.warn(warning_msg, ODEintWarning)
 </pre>
 </div>
 </div>
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[68]:</div>
+<div class="prompt output_prompt">Out[8]:</div>
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;matplotlib.lines.Line2D at 0x1117a1b00&gt;,
- &lt;matplotlib.lines.Line2D at 0x1117a1cf8&gt;,
- &lt;matplotlib.lines.Line2D at 0x1117a1ef0&gt;,
- &lt;matplotlib.lines.Line2D at 0x1117ac128&gt;]</pre>
+<pre>[&lt;matplotlib.lines.Line2D at 0x11a398eb8&gt;,
+ &lt;matplotlib.lines.Line2D at 0x11a3a10f0&gt;,
+ &lt;matplotlib.lines.Line2D at 0x11a3a12e8&gt;,
+ &lt;matplotlib.lines.Line2D at 0x11a3a14e0&gt;]</pre>
 </div>
 
 </div>
@@ -12636,267 +12666,96 @@ TkSuQmCC
 
 
 <div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-AAAAAElFTkSuQmCC
+<img src="data:image/png;base64,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
 "
 >
 </div>
 
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[69]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>odeint<span class="o">?</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-</div>
 </div>
 </div>
 

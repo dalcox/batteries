@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[12]:
+# In[1]:
 
 import scipy as sp
 import numpy as np
@@ -11,7 +11,7 @@ from scipy.optimize import fsolve
 get_ipython().magic('matplotlib inline')
 
 
-# In[13]:
+# In[103]:
 
 # initializing constants
 K = 0.06    #liquid conductivity
@@ -35,12 +35,12 @@ v = L*np.sqrt(a*io*(n*F)/(R*T)*(K + s)/(K*s))
 i2 = I * K/(K + s)*(1 + (s*(K**-1)*np.sinh(v*(1-y)) - np.sinh(v*y))/np.sinh(v))
 
 
-# In[14]:
+# In[104]:
 
 plt.plot(X, i2)
 
 
-# In[50]:
+# In[105]:
 
 #solve numerically
 
@@ -62,7 +62,7 @@ def linearbattfunc(IV, x):
 
 def BVbattfunc(IV, x):
     i1, i2, V1, V2 = IV
-    di2 = -a*io*np.exp((n*F)/(R*T)*-ac*(V1 - V2))
+    di2 = a*io*(np.exp((n*F)/(R*T)*aa*(V1 - V2)) - np.exp((n*F)/(R*T)*-ac*(V1 - V2)))
 #     di2 = a*io*(n*F)/(R*T)*(V1 - V2)
     di1 = -di2
     dV1 = -i1/s
@@ -83,7 +83,7 @@ def Tafelfunc(IV, x):
     return di1, di2, dV1, dV2
 
 
-# In[78]:
+# In[106]:
 
 def objective(u2_0):
     """
@@ -93,7 +93,6 @@ def objective(u2_0):
 #     print(U[-1,0])
     return U[-1,0]
 
-
 def objectiveLinear(V2o):
     """
     Shooting method for solving linear kinetic system
@@ -102,7 +101,6 @@ def objectiveLinear(V2o):
     dV = np.diff(V[:,3])/np.diff(X)
 #     print(dV[-1])
     return dV[-1]
-
 
 def objectiveBV(V2o):
     """
@@ -121,27 +119,30 @@ def ObjectiveTafel(IVo):
     U = odeint(Tafelfunc, [i1o, I, 0, V2o], X)
     V = U[:,3]
     dV = np.diff(V)/np.diff(X)
+    print(i1o, V2o)
     
     return U[0,0], dV[-1]
 
 
-# In[79]:
+# In[131]:
 
 # u2_0, = fsolve(objective, 0.)
 # simple_i = odeint(simplebattfunc, [I, u2_0], X)
 # simple_i1 = I - simple_i[:,0]
 
-linear_V2_0 = fsolve(objectiveLinear, 0.)
-linear_IV = odeint(linearbattfunc, [0., I, 0., linear_V2_0], X)
+#linear_V2_0 = fsolve(objectiveLinear, 0.)
+linear_IV = odeint(linearbattfunc, [0., I, 0., linear_V2_0], X) #, full_output = 1)
 
-# BV_V2_0 = fsolve(objectiveBV, 0)
+# BV_i1_0, BV_V2_0 = fsolve(bjectiveTafel, [0,0])
 # BV_IV = odeint(BVbattfunc, [0., I, 0, BV_V2_0], X)
-
-T_i1o, T_V2o = fsolve(ObjectiveTafel, [0,0])
-T_IV = odeint(Tafelfunc, [0, I, 0, V2o], X)
+T_i1o, T_V2o = fsolve(ObjectiveTafel, [0.1, .3], maxfev = 50)
+T_IV = odeint(Tafelfunc, [T_i1o, I, 0, T_V2o], X) #, full_output = 1)
+# print(T_IV)
 
 # plt.plot(X, simple_i[:,0], label = 'ionic linear simple')
 # plt.plot(X, simple_i1, label = 'electronic linear simple')
+
+plt.figure()
 plt.plot(X, linear_IV[:,0], '--', color = 'r', label = 'electronic linear')
 plt.plot(X, linear_IV[:,1], '--',color = 'b' ,label = 'ionic linear')
 plt.plot(X, T_IV[:,0], color = 'r', label = 'electronic Tafel')
@@ -149,7 +150,17 @@ plt.plot(X, T_IV[:,1], color = 'b', label = 'ionic Tafel')
 plt.legend(loc = 'best')
 
 
-# In[72]:
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
+
+
+# In[26]:
 
 def Tafelfunc(IV, x):
     """
@@ -176,20 +187,10 @@ def ObjectiveTafel(IVo):
     return U[0,0], dV[-1]
 
 
-# In[68]:
+# In[8]:
 
 i1o, V2o = fsolve(ObjectiveTafel, [0,0])
-U = odeint(Tafelfunc, [0, I, 0, V2o], X)
+U = odeint(Tafelfunc, [i1o, I, 0, V2o], X)
 
 plt.plot(X, U)
-
-
-# In[69]:
-
-get_ipython().magic('pinfo odeint')
-
-
-# In[ ]:
-
-
 
