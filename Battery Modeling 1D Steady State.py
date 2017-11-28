@@ -273,12 +273,14 @@ c = np.append(Mashed.sol(x_plot)[6], Mashed.sol(x_plot)[2])
 d = np.append(Mashed.sol(x_plot)[7], Mashed.sol(x_plot)[3])
 
 
-# In[11]:
+# In[13]:
 
 x_plot2 = np.linspace(0, 2*L, 200)
-
-for i in [a,b,c,d]:
-    plt.plot(x_plot2, i)
+data = [a,b,c,d]
+labels = ['solid current','electrolyte current','solid voltage','electrolyte voltage']
+for i in range(4):
+    plt.plot(x_plot2, data[i], label = labels[i])
+    plt.legend(loc = 'best')
 
 
 # In[ ]:
