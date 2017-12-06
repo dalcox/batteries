@@ -346,7 +346,7 @@ def TafelAn(x, IV):
     return dis_n, die_n, dVs_n, dVe_n
 
 
-# In[63]:
+# In[64]:
 
 N = 10
 N_sep = 20
@@ -358,7 +358,7 @@ x_plot_cath = np.linspace(L + L_sep, L_sep + 2*L, 100)
 x_plot_an = np.linspace(0, L, 100)
 
 An = solve_bvp(TafelAn, BCAn, x_an, y)
-Vwall_1 = An.sol(x_plot)[3][-1]
+Vwall_1 = An.sol(x_plot_an)[3][-1]
 
 x_sep = np.linspace(L, L + L_sep, N_sep)
 is_sep = np.ones(N_sep) * An.sol(x_plot_an)[0][-1]
@@ -374,17 +374,19 @@ Cath = solve_bvp(TafelCath, BCCath, x_cath, y)
 # Tc_IV = solve_bvp(Tafelfunc_c, BC_c, x, y)
 
 for i in range(4):
-    plt.plot(x_plot_cath, Cath.sol(x_plot_cath)[i], color = 'r')
-    plt.plot(x_plot_an, An.sol(x_plot_an)[i], color = 'b')
+    plt.plot(x_plot_cath, Cath.sol(x_plot_cath)[i], color = 'r', label = 'cathode')
+    plt.plot(x_plot_an, An.sol(x_plot_an)[i], color = 'b', label = 'anode')
 
 plt.plot(x_sep, Ve_sep, color = 'g')
 plt.plot(x_sep, is_sep, color = 'g')
-plt.plot(x_sep, ie_sep, color = 'g')
+plt.plot(x_sep, ie_sep, color = 'g', label = 'separator')
+
+plt.legend(loc = 'best')
 
 
-# In[39]:
+# In[ ]:
 
-print(Cath.sol(x_plot)[3][-1])
+
 
 
 # In[ ]:
