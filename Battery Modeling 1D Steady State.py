@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[3]:
+# In[1]:
 
 import scipy as sp
 import numpy as np
@@ -14,7 +14,7 @@ from scipy.integrate import solve_bvp
 get_ipython().magic('matplotlib inline')
 
 
-# In[62]:
+# In[2]:
 
 # initializing constants
 K = 0.06    #liquid conductivity
@@ -194,7 +194,7 @@ print(linear_IV.sol(x_plot)[3] - linear_IV.sol(x_plot)[2])
 
 # # Anode and cathode modeling
 
-# In[8]:
+# In[ ]:
 
 #i1(0) = 0, i1(L) = I, i1(2L) = 0
 #i2(0) = I, i2(L) = 0, i2(2L) = I
@@ -245,7 +245,7 @@ def TafelOverall(x, IV):
 
 
 
-# In[9]:
+# In[ ]:
 
 N = 10
 x = np.linspace(0, L, N)
@@ -269,7 +269,7 @@ for i in range(2):
     plt.legend(loc = 'best')
 
 
-# In[10]:
+# In[ ]:
 
 a = np.append(Mashed.sol(x_plot)[4], Mashed.sol(x_plot)[0])
 b = np.append(Mashed.sol(x_plot)[5], Mashed.sol(x_plot)[1])
@@ -277,7 +277,7 @@ c = np.append(Mashed.sol(x_plot)[6], Mashed.sol(x_plot)[2])
 d = np.append(Mashed.sol(x_plot)[7], Mashed.sol(x_plot)[3])
 
 
-# In[11]:
+# In[ ]:
 
 x_plot2 = np.linspace(0, 2*L, 200)
 data = [a,b,c,d]
@@ -287,7 +287,7 @@ for i in range(4):
     plt.legend(loc = 'best')
 
 
-# In[57]:
+# In[8]:
 
 Vwall1 = 1
 Vwall2 = 1
@@ -346,7 +346,7 @@ def TafelAn(x, IV):
     return dis_n, die_n, dVs_n, dVe_n
 
 
-# In[64]:
+# In[9]:
 
 N = 10
 N_sep = 20
