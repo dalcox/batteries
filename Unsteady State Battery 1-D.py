@@ -23,7 +23,7 @@ a = 23300.  #area/volume
 ac = 0.5    #alpha cathode
 aa = 0.5    #alpha anode
 io = 2e-7   #exchange current density
-L = 0.5      #length
+L = 0.5      #length in cm
 n = 1       #exchanged electrons
 F = 96485   #Faraday's constant
 R = 8.314   #gas constant
@@ -33,7 +33,7 @@ L_sep = 0.1 #length of separator
 Resist_sep = 1 #resistance of separator per length
 
 
-# In[72]:
+# In[18]:
 
 Vwall1 = 1
 Vwall2 = 1
@@ -92,7 +92,7 @@ def TafelAn(x, IV):
     return dis_n, die_n, dVs_n, dVe_n
 
 
-# In[4]:
+# In[19]:
 
 N = 10
 N_sep = 20
@@ -130,7 +130,7 @@ plt.plot(x_sep, ie_sep, color = 'g', label = 'separator')
 plt.legend(loc = 'best')
 
 
-# In[73]:
+# In[5]:
 
 def USS_TafelAn(x, IV):
     """
@@ -150,7 +150,6 @@ def USS_TafelAn(x, IV):
     taff_n = aa*n*F/(R*T)*(Vs_n - Ve_n)
     taff_c = -ac*n*F/(R*T)*(Vs_n - Ve_n)
     die_n = (np.exp(taff_n)-np.exp(taff_c))/(1/(a*io)+(np.exp(taff_n)-np.exp(taff_c))/die_n_lim)
-    #print(die_n)
     #Kinetics
     
     dis_n = -die_n
@@ -165,55 +164,71 @@ def USS_TafelAn(x, IV):
     return dis_n, die_n, dVs_n, dVe_n
 
 
-# In[74]:
+# In[6]:
 
-coulomb_density = 5.03/86.9368 * F
-ro = 0.001
+d = 5.03       #g/cm3 density of MgO2
+MW = 86.9368   #molecular mass of MgO2
+V = 12         #volume of the electrode in cm3
+W = 50         #mass of electrode in g
+ro = 0.003     #constant outer radius of cores
+pi = 3.1415926 #π
+D_H = 5e-6     #Approximate diffusivity of H+ through MgOOH
+C_a = 1.6-1    #Surface concentration of OH, treated as constant for simplicity
+
+coulomb_density = d/MW * F
+N = (W/V)/((4/3*pi*ro**3)*d)
+
 print(coulomb_density) #C/cm^3
 
 
-# In[110]:
+# In[27]:
 
 N = 10
 N_sep = 20
 x_cath = np.linspace(L + L_sep, 2*L + L_sep, N)
 x_an = np.linspace(0, L, N)
 y = np.zeros([4, N])
-i_lim_x = np.linspace(0,L,1000)
-i_lim = np.ones(i_lim_x.size)
+i_lim_x = np.linspace(0,L,100)
+r_i = np.ones(i_lim_x.size) * 0.00299
+i_lim = 4*pi*F*N*D_H*C_a/(1/r_i - 1/ro)
 
-x_plot_cath = np.linspace(L + L_sep, L_sep + 2*L, 1000)
+# x_plot_cath = np.linspace(L + L_sep, L_sep + 2*L, 1000)
 x_plot_an = np.linspace(0, L, 1000)
 
 # An = solve_bvp(USS_TafelAn, BCAn, x_an, y)
 
-holder = []
-
-for i in range(290):
+for j in range(180):
     #print(i_lim)
     An = solve_bvp(USS_TafelAn, BCAn, x_an, y) #An[0] = is_n, An[1] = ie_n, An[2] = Vs_n, An[3] = Ve_n
     IV = An.sol(i_lim_x)
     
+#     i_exchange = np.diff(IV[1])/np.diff(i_lim_x)
+#     i_exchange = np.concatenate(([i_exchange[0], i_exchange[0]], i_exchange[1:]))
+    
     taff_n = aa*n*F/(R*T)*(IV[2] - IV[3])
     taff_c = -ac*n*F/(R*T)*(IV[2] - IV[3])
-    die_n = (np.exp(taff_n)-np.exp(taff_c))/(1/(a*io)+(np.exp(taff_n)-np.exp(taff_c))/i_lim) 
-    
-    i_lim = i_lim - die_n * .01
+    i_F = (np.exp(taff_n)-np.exp(taff_c))/(1/(a*io)+(np.exp(taff_n)-np.exp(taff_c))/i_lim)
+    r_i = r_i - i_F/(coulomb_density*4*pi*r_i**2) * 0.00001 # timestep the inner radius
+    i_lim = 4*pi*F*N*D_H*C_a/(1/r_i - 1/ro)
+    if j % 10 == 0:
+#         for n in range(2,4):
+#             plt.plot(x_plot_an, An.sol(x_plot_an)[n], color = 'b', label = 'anode')
+
+#         plt.plot(i_lim_x, r_i)
+        plt.plot(i_lim_x, i_F)
 #     print(i_lim)
 
 
-# In[112]:
+# In[8]:
 
-for i in range(4):
-    plt.plot(x_plot_an, An.sol(x_plot_an)[i], color = 'b', label = 'anode')
+for j in range(4):
+    plt.plot(x_plot_an, An.sol(x_plot_an)[j], color = 'b', label = 'anode')
 
-plt.plot(i_lim_x, die_n)
-plt.show()
-plt.figure(1)
-plt.plot(i_lim_x, i_lim)
+plt.plot(i_lim_x, i_F)
+# plt.plot(i_lim_x, i_lim)
 
 
-# In[98]:
+# In[9]:
 
 # An = solve_bvp(USS_TafelAn, BCAn, x_an, y) #An[0] = is_n, An[1] = ie_n, An[2] = Vs_n, An[3] = Ve_n
 # IV = An.sol(i_lim_x)
@@ -225,12 +240,12 @@ plt.plot(i_lim_x, i_lim)
 i_lim = i_lim + die_n * .01
 
 
-# In[108]:
+# In[ ]:
 
 print(IV[2] - IV[3], taff_n, taff_c, np.exp(taff_n), np.exp(taff_c), die_n)
 
 
-# In[12]:
+# In[ ]:
 
 i_lim_x = np.linspace(0,L,100)
 i_lim = np.ones(i_lim_x.size)
@@ -248,14 +263,19 @@ plt.plot(i_lim_x, die_n)
 #plt.plot(i_lim_x, zprime)
 
 
-# In[42]:
+# In[ ]:
 
 print(aa*n*F/R/T)
 
 
-# In[109]:
+# In[ ]:
 
 plt.plot(i_lim_x, IV[2] - IV[3])
+
+
+# In[ ]:
+
+np.concatenate(([0,1], [0,1]))
 
 
 # In[ ]:
