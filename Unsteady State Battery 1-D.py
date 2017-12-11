@@ -14,24 +14,38 @@ from scipy.integrate import solve_bvp
 get_ipython().magic('matplotlib inline')
 
 
-# In[2]:
+# In[17]:
 
 # initializing constants
-K = 0.06    #liquid conductivity
-s = 20.     #solid conductivity
-a = 23300.  #area/volume
-ac = 0.5    #alpha cathode
-aa = 0.5    #alpha anode
-io = 2e-7   #exchange current density
-L = 0.5      #length in cm
-n = 1       #exchanged electrons
-F = 96485   #Faraday's constant
-R = 8.314   #gas constant
-T = 298     #temperature
-I = 0.1     #total current density
-L_sep = 0.1 #length of separator
+K = 0.06       #liquid conductivity
+s = 20.        #solid conductivity
+a = 23300.     #area/volume
+ac = 0.5       #alpha cathode
+aa = 0.5       #alpha anode
+io = 2e-7      #exchange current density
+L = 0.5        #length in cm
+n = 1          #exchanged electrons
+F = 96485      #Faraday's constant
+R = 8.314      #gas constant
+T = 298        #temperature
+I = 0.1        #total current density
+L_sep = 0.1    #length of separator
 Resist_sep = 1 #resistance of separator per length
 
+d = 5.03       #g/cm3 density of MnO2
+MW = 86.9368   #molecular mass of MnO2
+V = 12         #volume of the electrode in cm3, arbitrary choice
+W = 50         #mass of electrode in g, arbitrary choice
+ro = 0.003     #constant outer radius of cores
+pi = 3.1415926 #π
+D_H = 5e-6     #Approximate diffusivity of H+ through MgOOH
+C_a = 0.6      #Surface concentration of OH, treated as constant for simplicity
+
+coulomb_density = d/MW * F
+N = (W/V)/((4/3*pi*ro**3)*d)
+
+
+# # Steady State Repost
 
 # In[18]:
 
@@ -92,7 +106,7 @@ def TafelAn(x, IV):
     return dis_n, die_n, dVs_n, dVe_n
 
 
-# In[19]:
+# In[46]:
 
 N = 10
 N_sep = 20
@@ -119,18 +133,30 @@ Cath = solve_bvp(TafelCath, BCCath, x_cath, y)
 # Ta_IV = solve_bvp(Tafelfunc_a, BC_a, x, y)
 # Tc_IV = solve_bvp(Tafelfunc_c, BC_c, x, y)
 
-for i in range(4):
-    plt.plot(x_plot_cath, Cath.sol(x_plot_cath)[i], color = 'r', label = 'cathode')
-    plt.plot(x_plot_an, An.sol(x_plot_an)[i], color = 'b', label = 'anode')
+for i in range(2,4):
+    if i == 2:
+        label1 = 'Cathode'
+        label2 = 'Anode'
+        linesty = '-'
+    else:
+        label1 = None
+        label2 = None
+        linesty = '--'
+    plt.plot(x_plot_cath, Cath.sol(x_plot_cath)[i], color = 'r', label = label1, linestyle = linesty)
+    plt.plot(x_plot_an, An.sol(x_plot_an)[i], color = 'b', label = label2, linestyle = linesty)
 
-plt.plot(x_sep, Ve_sep, color = 'g')
-plt.plot(x_sep, is_sep, color = 'g')
-plt.plot(x_sep, ie_sep, color = 'g', label = 'separator')
-
+plt.plot(x_sep, Ve_sep, color = 'g', label = 'Separator', linestyle = '--')
+# plt.plot(x_sep, ie_sep, color = 'g', linestyle='--')
+# plt.plot(x_sep, is_sep, color = 'g', label = 'Separator')
 plt.legend(loc = 'best')
+plt.xlabel('Distance (cm)')
+plt.ylabel('Voltage (V)')
+plt.savefig('SS_Voltage_full.png')
 
 
-# In[5]:
+# # Non-Steady State
+
+# In[20]:
 
 def USS_TafelAn(x, IV):
     """
@@ -142,10 +168,12 @@ def USS_TafelAn(x, IV):
     
     x_data = i_lim_x.copy() #np.linspace(0, L, 10)
     y_data = i_lim.copy()   #np.array([1,1,1,1,1,1,1,1,1,1])
-#     print(x_data, y_data)
-    f = sp.interpolate.interp1d(x_data, y_data)
+    # copies in limiting current from outside the function
+
+
+    f = sp.interpolate.interp1d(x_data, y_data) 
     die_n_lim = f(x)
-#     print(die_n_lim)
+    #creates a continuous function callable by solve_bvp
     
     taff_n = aa*n*F/(R*T)*(Vs_n - Ve_n)
     taff_c = -ac*n*F/(R*T)*(Vs_n - Ve_n)
@@ -164,24 +192,7 @@ def USS_TafelAn(x, IV):
     return dis_n, die_n, dVs_n, dVe_n
 
 
-# In[6]:
-
-d = 5.03       #g/cm3 density of MgO2
-MW = 86.9368   #molecular mass of MgO2
-V = 12         #volume of the electrode in cm3
-W = 50         #mass of electrode in g
-ro = 0.003     #constant outer radius of cores
-pi = 3.1415926 #π
-D_H = 5e-6     #Approximate diffusivity of H+ through MgOOH
-C_a = 1.6-1    #Surface concentration of OH, treated as constant for simplicity
-
-coulomb_density = d/MW * F
-N = (W/V)/((4/3*pi*ro**3)*d)
-
-print(coulomb_density) #C/cm^3
-
-
-# In[27]:
+# In[64]:
 
 N = 10
 N_sep = 20
@@ -196,26 +207,34 @@ i_lim = 4*pi*F*N*D_H*C_a/(1/r_i - 1/ro)
 x_plot_an = np.linspace(0, L, 1000)
 
 # An = solve_bvp(USS_TafelAn, BCAn, x_an, y)
-
-for j in range(180):
-    #print(i_lim)
+fig = plt.figure()
+for j in range(185):
+    
     An = solve_bvp(USS_TafelAn, BCAn, x_an, y) #An[0] = is_n, An[1] = ie_n, An[2] = Vs_n, An[3] = Ve_n
     IV = An.sol(i_lim_x)
-    
-#     i_exchange = np.diff(IV[1])/np.diff(i_lim_x)
-#     i_exchange = np.concatenate(([i_exchange[0], i_exchange[0]], i_exchange[1:]))
+    #Solves the boundary value problem and sets solutions to IV
     
     taff_n = aa*n*F/(R*T)*(IV[2] - IV[3])
     taff_c = -ac*n*F/(R*T)*(IV[2] - IV[3])
     i_F = (np.exp(taff_n)-np.exp(taff_c))/(1/(a*io)+(np.exp(taff_n)-np.exp(taff_c))/i_lim)
-    r_i = r_i - i_F/(coulomb_density*4*pi*r_i**2) * 0.00001 # timestep the inner radius
-    i_lim = 4*pi*F*N*D_H*C_a/(1/r_i - 1/ro)
-    if j % 10 == 0:
+    #uses kinetic solution of current iteration to determine faradaic current
+    
+    r_i = r_i - i_F/(coulomb_density*4*pi*r_i**2) * 0.00001 
+    #timestep the inner radius
+    
+    i_lim = 4*pi*F*N*D_H*C_a/(1/r_i - 1/ro) 
+    #Creates next iteration's limiting current
+    
+    
+    if j % 20 == 0:
 #         for n in range(2,4):
 #             plt.plot(x_plot_an, An.sol(x_plot_an)[n], color = 'b', label = 'anode')
 
 #         plt.plot(i_lim_x, r_i)
-        plt.plot(i_lim_x, i_F)
+        plt.plot(i_lim_x, IV[2] - IV[3])
+plt.xlabel('Distance from CC (cm)')
+plt.ylabel('Overpotential (V)')
+plt.savefig('Overpotential.png')
 #     print(i_lim)
 
 

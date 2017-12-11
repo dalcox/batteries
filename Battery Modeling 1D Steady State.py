@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[19]:
 
 import scipy as sp
 import numpy as np
@@ -14,7 +14,7 @@ from scipy.integrate import solve_bvp
 get_ipython().magic('matplotlib inline')
 
 
-# In[2]:
+# In[20]:
 
 # initializing constants
 K = 0.06    #liquid conductivity
@@ -23,7 +23,7 @@ a = 23300.  #area/volume
 ac = 0.5    #alpha cathode
 aa = 0.5    #alpha anode
 io = 2e-7   #exchange current density
-L = .5      #length
+L = 1.0      #length
 n = 1       #exchanged electrons
 F = 96485   #Faraday's constant
 R = 8.314   #gas constant
@@ -40,7 +40,7 @@ Resist_sep = 1 #resistance of separator per length
 # i2 = I * K/(K + s)*(1 + (s*(K**-1)*np.sinh(v*(1-y)) - np.sinh(v*y))/np.sinh(v))
 
 
-# In[3]:
+# In[21]:
 
 def Tafelfunc(IV, x):
     """
@@ -67,7 +67,7 @@ def ObjectiveTafel(IVo):
     return U[0,0], dV[-1]
 
 
-# In[4]:
+# In[22]:
 
 #analytically combined equation
 def simplebattfunc(x, i):
@@ -187,14 +187,9 @@ def BC_a(ya, yb):
 #     plt.plot(x_plot, Tc_IV.sol(x_plot)[i], color = 'b')
 
 
-# In[7]:
-
-print(linear_IV.sol(x_plot)[3] - linear_IV.sol(x_plot)[2])
-
-
 # # Anode and cathode modeling
 
-# In[ ]:
+# In[23]:
 
 #i1(0) = 0, i1(L) = I, i1(2L) = 0
 #i2(0) = I, i2(L) = 0, i2(2L) = I
@@ -245,7 +240,7 @@ def TafelOverall(x, IV):
 
 
 
-# In[ ]:
+# In[28]:
 
 N = 10
 x = np.linspace(0, L, N)
@@ -262,14 +257,15 @@ Mashed = solve_bvp(TafelOverall, BCOverall, x, y)
 x_plot = np.linspace(0, L, 100)
 
 plt.figure()
-for i in range(2):
-#     plt.plot(x, y[i])
-#     plt.plot(x_plot, linear_IV.sol(x_plot)[i])
-    plt.plot(x_plot, Mashed.sol(x_plot)[i], color = 'r', label = i)
-    plt.legend(loc = 'best')
+plt.plot(x_plot, Mashed.sol(x_plot)[0], color = 'b', label ='i1' )
+plt.plot(x_plot, Mashed.sol(x_plot)[1], color = 'g', label ='i2' )
+plt.legend(loc = 'best')
+plt.xlabel('Distance (cm)')
+plt.ylabel('Current Density (A/cm2)')
+plt.savefig('gallaway compare')
 
 
-# In[ ]:
+# In[10]:
 
 a = np.append(Mashed.sol(x_plot)[4], Mashed.sol(x_plot)[0])
 b = np.append(Mashed.sol(x_plot)[5], Mashed.sol(x_plot)[1])
@@ -277,7 +273,7 @@ c = np.append(Mashed.sol(x_plot)[6], Mashed.sol(x_plot)[2])
 d = np.append(Mashed.sol(x_plot)[7], Mashed.sol(x_plot)[3])
 
 
-# In[ ]:
+# In[16]:
 
 x_plot2 = np.linspace(0, 2*L, 200)
 data = [a,b,c,d]
@@ -287,7 +283,7 @@ for i in range(4):
     plt.legend(loc = 'best')
 
 
-# In[8]:
+# In[17]:
 
 Vwall1 = 1
 Vwall2 = 1
@@ -346,7 +342,7 @@ def TafelAn(x, IV):
     return dis_n, die_n, dVs_n, dVe_n
 
 
-# In[9]:
+# In[18]:
 
 N = 10
 N_sep = 20
@@ -374,8 +370,14 @@ Cath = solve_bvp(TafelCath, BCCath, x_cath, y)
 # Tc_IV = solve_bvp(Tafelfunc_c, BC_c, x, y)
 
 for i in range(4):
-    plt.plot(x_plot_cath, Cath.sol(x_plot_cath)[i], color = 'r', label = 'cathode')
-    plt.plot(x_plot_an, An.sol(x_plot_an)[i], color = 'b', label = 'anode')
+    if i == 0:
+        label1 = 'cathode'
+        label2 = 'anode'
+    else:
+        label1 = None
+        label2 = None
+    plt.plot(x_plot_cath, Cath.sol(x_plot_cath)[i], color = 'r', label = label1)
+    plt.plot(x_plot_an, An.sol(x_plot_an)[i], color = 'b', label = label2)
 
 plt.plot(x_sep, Ve_sep, color = 'g')
 plt.plot(x_sep, is_sep, color = 'g')
